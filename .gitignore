@@ -1,0 +1,21 @@
+# node 
+node_modules/
+npm-debug.log
+yarn.lock
+package-lock.json
+
+
+#env
+.env
+
+
+.DS_Store
+.DS_Store
+.vscode/
+.idea/
+
+docker-data/
+docker-compose.override.yml
+
+coverage/
+_test_/

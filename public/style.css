@@ -1,0 +1,163 @@
+:root{
+  --accent:#0b66ff;
+  --header-bg: rgba(255,255,255,0.6);
+  --glass-border: rgba(255,255,255,0.8);
+  --muted:#666;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  color:#111;
+  background:#fafafa;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Header fijo con blur (backdrop) */
+.site-header{
+  position:fixed;
+  left:0;right:0;
+  top:0;
+  z-index:40;
+  backdrop-filter: blur(8px) saturate(120%);
+  background: var(--header-bg);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+}
+.header-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:14px 20px;
+}
+.nav{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.logo{
+  font-weight:700;
+  color:#111;
+  text-decoration:none;
+  font-size:1.05rem;
+  margin-right:8px;
+}
+.nav-list{
+  display:flex;
+  gap:18px;
+  list-style:none;
+  margin:0;
+  padding:0;
+  flex:1;
+}
+.nav-list a{
+  color:#111;
+  text-decoration:none;
+  font-weight:500;
+  font-size:0.95rem;
+}
+.nav-actions{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.icon-btn{
+  background:transparent;
+  border:none;
+  font-size:1rem;
+  cursor:pointer;
+}
+.login{
+  text-decoration:none;
+  color:var(--accent);
+  font-weight:600;
+}
+
+/* Hero con imagen centrada y efecto parallax */
+.hero{
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(255,255,255,0.0) 0%, rgba(0,0,0,0.04) 100%);
+  pointer-events:none;
+  z-index:1;
+}
+
+/* Centro visual: imagen y texto */
+.hero-center{
+  position:relative;
+  z-index:5;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  transform-style:preserve-3d;
+}
+.hero-image{
+  width:360px;
+  max-width:70vw;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  box-shadow:0 12px 30px rgba(2,6,23,0.18);
+  border-radius:12px;
+  background:white;
+  padding:18px;
+  transition:transform 0.25s ease-out, filter 0.25s ease-out;
+}
+
+/* Título sobre el hero (puede aparecer bajo la imagen) */
+.hero-caption h1{
+  margin:0;
+  font-size:1.05rem;
+  letter-spacing:2px;
+}
+.muted{color:var(--muted)}
+
+/* Social fixed a la izquierda */
+.social-left{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:6;
+  font-size:0.85rem;
+}
+.social-left a{
+  text-decoration:none;
+  color:#111;
+  background:rgba(255,255,255,0.7);
+  padding:8px 10px;
+  border-radius:6px;
+  box-shadow:0 6px 16px rgba(2,6,23,0.06);
+}
+
+/* Contenido posterior para hacer scroll */
+.content{background:#fff; padding:70px 0 140px}
+.container{max-width:1000px;margin:0 auto;padding:24px}
+
+/* Responsive */
+@media (max-width:760px){
+  .nav-list{display:none}
+  .hero-image{width:72vw}
+  .social-left{display:none}
+  .header-inner{padding:10px 14px}
+}
+
+/* Efecto visual a medida que se hace scroll — ligera escala */
+.hero-image.scrolled{
+  transform: translateY(-6%) scale(0.99);
+  filter:contrast(1.02) saturate(1.02);
+}
