@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export class AuthError extends Error {
-     constructor(message, status, code){
+     constructor(message, status, code){ 
             super(message)
             this.status = status
             this.code = code || 'AUTH_ERROR'
