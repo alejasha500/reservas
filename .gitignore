@@ -1,0 +1,57 @@
+# ─────────────────────────────
+# General Node.js + JS Projects
+# ─────────────────────────────
+
+**/node_modules/
+**/dist/
+**/build/
+**/.next/
+**/.cache/
+**/.turbo/
+**/.vite/
+
+# Lock files — opcional ignorarlos, pero NO recomendado
+# **/package-lock.json
+# **/yarn.lock
+# **/pnpm-lock.yaml
+
+# ─────────────────────────────
+# Environment files
+# ─────────────────────────────
+**/.env
+**/.env.*
+
+# ─────────────────────────────
+# Logs
+# ─────────────────────────────
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ─────────────────────────────
+# Editor / OS settings
+# ─────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ─────────────────────────────
+# Docker
+# ─────────────────────────────
+docker-data/
+docker-compose.override.yml
+
+# ─────────────────────────────
+# Tests
+# ─────────────────────────────
+coverage/
+_test_/

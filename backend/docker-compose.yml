@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  reservas: # backend + frontend estático en /public
+    build: .   # Dockerfile está en la raíz (RESERVAS/)
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: reservas
+      DB_USER: dev
+      DB_PASSWORD: dev123
+    volumes:
+      - .:/app
+      - reservas_node_modules:/app/node_modules
+    restart: unless-stopped
+    command: npm run dev
+    depends_on:
+      - db
+
+  db: # base de datos MySQL
+    image: mysql:8.0
+    container_name: reservas_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: suenos2019
+      MYSQL_DATABASE: reservas
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
+  reservas_node_modules:
