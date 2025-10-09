@@ -20,4 +20,26 @@ export const registerSchema = Joi.object({
 export const loginSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required()
+}) 
+
+
+
+export const updateProfileSchema = Joi.object({
+  name: Joi.string().min(2).optional().messages({
+    "string.min": "El nombre debe tener al menos 2 caracteres"
+  }),
+  email: Joi.string().email().optional().messages({
+    "string.email": "El email no tiene un formato válido"
+  })
+})
+
+
+
+export const changePasswordSchema = Joi.object({
+  currentPassword: Joi.string().required().messages({
+    "string.empty": "Debes ingresar tu contraseña actual"
+  }),
+  newPassword: Joi.string().min(6).required().messages({
+    "string.min": "La nueva contraseña debe tener al menos 6 caracteres"
+  })
 })
