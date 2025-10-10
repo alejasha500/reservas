@@ -114,15 +114,22 @@ export class AuthError extends Error {
 
  export async function updateProfile(req, res, next) {
     try {
-         const userId = req.user.id
+         const  userId  = req.user.id
          const { name , email } = req.body
-         await updateUserProfile({id: userId, name, email})
-         const updateUser = await getUserById(userId)
-         res.json({
-            success: true,
-            message:' perfil actualizado correctamente',
-            user: sanitizeUser(updateUser)
-         })
+        
+         const updated = await updateUserProfile({userId, name, email})
+         if(!updated){
+            throw AuthError('no se puedo actualizar el perfil', 400, 'ERROR_UPDATE')
+         }
+
+
+         const user = await getUserById(userId)
+         if(!user){
+            throw AuthError('Usuario no encontrado', 404, 'USER_NOT_FOUND')
+         }
+
+         res.json({user: sanitizeUser(user), success: true})
+         
     } catch (error) {
       next(error)
     }

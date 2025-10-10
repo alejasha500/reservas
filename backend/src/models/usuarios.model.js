@@ -41,15 +41,15 @@ export async function getUserById(id) {
 // Actualizar perfil del usuario (nombre y email)
 export async function updateUserProfile({ id, name, email }) {
   const sql = 'UPDATE users SET name = ?, email = ? WHERE id = ?'
-  await query(sql, [name, email, id])
-  return true
+   const result = await query(sql, [name, email, id])
+  return result.affectedRows > 0 
 }
  
 // Cambiar contraseña
 export async function updatePassword({ id, hashedPassword }) {
   const sql = 'UPDATE users SET password = ? WHERE id = ?'
-  await query(sql, [hashedPassword, id])
-  return true
+  const result = await query(sql, [hashedPassword, id])
+  return result.affectedRows > 0
 }
 
 // Eliminar usuario 
