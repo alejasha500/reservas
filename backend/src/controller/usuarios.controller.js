@@ -142,6 +142,10 @@ export class AuthError extends Error {
     try {
          const userId = req.user.id
          const { currentPassword, newPassword } = req.body
+
+           if (currentPassword === newPassword) {
+              throw new AuthError('La nueva contraseña debe ser diferente', 400, 'SAME_PASSWORD')
+              }
          
          const user = await loginUser({email: req.user.email})
          const passwordMatch = await bcrypt.compare(currentPassword, user.password)

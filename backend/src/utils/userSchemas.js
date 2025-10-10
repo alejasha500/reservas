@@ -1,6 +1,9 @@
 import Joi from "joi";
 
 
+
+  
+
 export const registerSchema = Joi.object({
     name: Joi.string().min(2).required().messages({
         "string.empty": " el nombre es obligatorio",
