@@ -52,6 +52,13 @@ export async function updatePassword({ id, hashedPassword }) {
   return result.affectedRows > 0
 }
 
+// traer solo contraseña con id
+export async function getUserWithPassword(id) {
+  const sql = 'SELECT password FROM users WHERE id = ?'
+  const rows = await query(sql, [id])
+  return rows[0] || null
+}
+
 // Eliminar usuario 
 export async function deleteUser(id) {
   const sql = 'DELETE FROM users WHERE id = ?'

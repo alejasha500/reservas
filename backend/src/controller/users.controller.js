@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { createUser, loginUser, findUserByEmail, getAllUsers, getUserById, deleteUser, updateUserProfile, updatePassword } from '../models/users.model.js'
+import { createUser, loginUser, findUserByEmail, getAllUsers, getUserById, deleteUser, updateUserProfile, updatePassword, getUserWithPassword } from '../models/users.model.js'
 import { generateToken } from '../config/token.js'
 import { sanitizeUser } from '../utils/sanitizeUser.js'
 import { AuthError } from '../utils/AuthError.js'
@@ -61,7 +61,7 @@ dotenv.config()
                maxAge: 15 * 60 * 1000 // 15 minutos
             })
 
-
+ 
             res.json({ user: sanitizeUser(user), success: true })
       } catch (error) {
          next(error)
@@ -133,13 +133,17 @@ dotenv.config()
  export async function changePassword(req, res, next) {
     try {
          const userId = req.user.id
+        
          const { currentPassword, newPassword } = req.body
 
            if (currentPassword === newPassword) {
               throw new AuthError('La nueva contraseña debe ser diferente', 400, 'SAME_PASSWORD')
               }
          
-         const user = await loginUser({email: req.user.email})
+         const user = await getUserWithPassword(userId)
+
+           if (!user) throw new AuthError('Usuario no encontrado', 404, 'USER_NOT_FOUND') 
+                
          const passwordMatch = await bcrypt.compare(currentPassword, user.password)
 
          if(!passwordMatch){
