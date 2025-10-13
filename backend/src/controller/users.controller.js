@@ -1,18 +1,10 @@
 import bcrypt from 'bcrypt'
-import { createUser, loginUser, findUserByEmail, getAllUsers, getUserById, deleteUser, updateUserProfile, updatePassword } from '../models/usuarios.model.js'
+import { createUser, loginUser, findUserByEmail, getAllUsers, getUserById, deleteUser, updateUserProfile, updatePassword } from '../models/users.model.js'
 import { generateToken } from '../config/token.js'
 import { sanitizeUser } from '../utils/sanitizeUser.js'
+import { AuthError } from '../utils/AuthError.js'
 import dotenv from 'dotenv'
 dotenv.config()
-
-export class AuthError extends Error {
-     constructor(message, status, code){ 
-            super(message)
-            this.status = status
-            this.code = code || 'AUTH_ERROR'
-     }
-    }
-
 
 
     // REGISTRO DE USUARIOS

@@ -4,7 +4,8 @@ import cors from "cors"
 import rateLimit from "express-rate-limit"
 import cookieParser from "cookie-parser"
 import { notFound, errorHandler } from "./middlewares/errorHandler.js"
-import userRouter from './routes/usuarios.routes.js'
+import userRouter from './routes/users.routes.js'
+import reservationsRouter from './routes/reservations.routes.js'
 
 
 const app = express()
@@ -27,7 +28,11 @@ app.use(rateLimit({
   max: 100 
 }))
 
-app.use('/reservas/usuarios', userRouter)
+// ruta de usuarios
+app.use('/api/users', userRouter)
+
+// ruta de reservas
+app.use('/api/reservations', reservationsRouter)
 
 app.use('/health', (req, res)=> {
     res.status(200).json({ message: "API is healthy" })

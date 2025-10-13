@@ -13,7 +13,7 @@ import {
       getProfile,
       updateProfile,
       changePassword
-     } from '../controller/usuarios.controller.js'
+     } from '../controller/users.controller.js'
 
 
 const router = Router()
