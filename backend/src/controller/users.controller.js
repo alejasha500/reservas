@@ -104,12 +104,12 @@ dotenv.config()
 
   //   ACTUALIZAR NOMBRE O EMAIL 
 
- export async function updateProfile(req, res, next) {
+ export async function updateProfileController(req, res, next) {
     try {
          const  userId  = req.user.id
          const { name , email } = req.body
         
-         const updated = await updateUserProfile({userId, name, email})
+         const updated = await updateUserProfile({id: userId, name, email})
          if(!updated){
             throw AuthError('no se puedo actualizar el perfil', 400, 'ERROR_UPDATE')
          }

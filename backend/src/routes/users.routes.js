@@ -11,7 +11,7 @@ import {
       getUser,
       deleteByUser,
       getProfile,
-      updateProfile,
+      updateProfileController,
       changePassword
      } from '../controller/users.controller.js'
 
@@ -26,7 +26,7 @@ router.post('/login', validate(loginSchema), login)
 // protegidas (usuario auntenticado )
 router.post('/logout', authMiddleware, logout)
 router.get('/profile', authMiddleware, getProfile)
-router.put('/profile', authMiddleware, validate(updateProfileSchema), updateProfile)
+router.put('/profile', authMiddleware, validate(updateProfileSchema), updateProfileController)
 router.post('/change-password', authMiddleware, validate(changePasswordSchema), changePassword)
 router.delete('/profile', authMiddleware, deleteByUser)
 
