@@ -8,7 +8,7 @@ export default function FadeInSection({ children, type = 'fadeUp' }) {
     useEffect(() => {
          const observer = new IntersectionObserver(
             ([entry]) => setVisible(entry.isIntersecting),
-            {threshold: 0.3}
+            {threshold: 0.4}
          )
          if(ref.current) observer.observe(ref.current)
          return () => observer.disconnect()

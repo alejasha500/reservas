@@ -1,7 +1,8 @@
 // src/pages/LandingPage.jsx
 
 import { useNavigate } from "react-router-dom";
-import FadeInSection from '../components/FadeInSection';
+import FadeInSection from '../components/FadeInSection.jsx'
+import bgImage from '../assets/mesa-vintage.jpg'
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -13,7 +14,15 @@ const LandingPage = () => {
     };
 
     return (
-        <div className="bg-gradient-to-br from-blue-400 to-black">
+        <div className="bg-gradient-to-br from-green-900 to-black"  
+            style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundBlendMode: 'overlay'
+             }}>
             {/* NAVBAR */}
             <nav className="fixed top-0 w-full backdrop-blur-lg bg-white/10 border-b border-white/20 shadow-lg z-50 px-8 py-4">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -35,30 +44,34 @@ const LandingPage = () => {
                 </div>
             </nav>
 
-            {/* HERO SECTION */}
-            <section className="min-h-screen flex items-center justify-center text-white pt-20 px-8">
-                <FadeInSection>
-                    <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-16 text-center max-w-4xl shadow-2xl">
+                                                            {/* HERO SECTION con foto de fondo */}
+            <section className="min-h-screen flex items-center justify-center text-white pt-20 px-8 ">
+                     {/* Overlay oscuro para que las letras se lean */}
+            
+    
+                {/* Contenido */}
+             <FadeInSection>
+                     <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-sm p-16 text-center max-w-4xl shadow-2xl">
                         <h1 className="text-6xl md:text-7xl font-bold mb-6 leading-tight">
-                            Una experiencia gastronómica única
+                           Una experiencia gastronómica única
                         </h1>
-                        <p className="text-2xl mb-8 text-gray-200">
-                            En cada plato
-                        </p>
-                        <button 
-                            onClick={scrollToMenu}
-                            className="px-8 py-4 backdrop-blur-lg bg-white/20 border border-white/30 text-white rounded-full font-semibold text-lg hover:scale-105 hover:bg-white/30 transform transition-all duration-300 shadow-2xl"
-                        >
-                            🍽️ Ver nuestro menú
-                        </button>
-                    </div>
-                </FadeInSection>
+                     <p className="text-2xl mb-8 text-gray-200">
+                           En cada plato
+                      </p>
+                            <button 
+                          onClick={scrollToMenu}
+                                  className="px-8 py-4 backdrop-blur-lg bg-white/20 border border-white/30 text-white rounded-full font-semibold text-lg hover:scale-105 hover:bg-white/30 transform transition-all duration-300 shadow-2xl"
+                               >
+                               🍽️ Ver nuestro menú
+                             </button>
+                        </div>
+              </FadeInSection>
             </section>
 
             {/* NUESTRA HISTORIA */}
             <section className="min-h-screen flex items-center justify-center px-8 py-20">
                 <FadeInSection>
-                    <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-16 max-w-4xl shadow-2xl">
+                    <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-sm p-16 max-w-4xl shadow-2xl">
                         <h2 className="text-5xl font-bold mb-8 text-white text-center">
                             🏛️ Nuestra Historia
                         </h2>
@@ -75,7 +88,7 @@ const LandingPage = () => {
             {/* AMBIENTE */}
             <section className="py-20 px-8">
                 <FadeInSection>
-                    <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-16 max-w-4xl mx-auto text-center shadow-2xl">
+                    <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-sm p-16 max-w-4xl mx-auto text-center shadow-2xl">
                         <h2 className="text-5xl font-bold mb-8 text-white">
                             🌿 Nuestro Ambiente
                         </h2>
@@ -89,7 +102,7 @@ const LandingPage = () => {
             {/* MENÚ VISUAL */}
             <section id="menu-section" className="min-h-screen py-20 px-8">
                 <FadeInSection>
-                    <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-12 mb-12 max-w-4xl mx-auto shadow-2xl">
+                    <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-sm p-12 mb-12 max-w-4xl mx-auto shadow-2xl">
                         <h2 className="text-6xl font-bold text-center text-white">
                             Nuestro Menú
                         </h2>
