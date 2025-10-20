@@ -38,5 +38,17 @@ router.get('/admin/users/:id', authMiddleware, checkRole('admin'), getUser)
 router.delete('/admin/users/:id', authMiddleware, checkRole('admin'), deleteByUser)
 
 
+// verificar sesion
+
+router.get('/verify', authMiddleware, (req, res) => {
+  res.status(200).json({
+    success: true,
+    userId: req.user.id,
+    role: req.user.role,
+    message: 'Authenticated',
+  });
+});
+
+
 
 export default router
