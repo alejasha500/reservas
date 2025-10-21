@@ -243,10 +243,6 @@ export async function updateTableController(req, res, next) {
     const { id } = req.params
     const { number, capacity, location } = req.body
 
-    if (!number || !capacity) {
-      throw new AuthError('Faltan datos requeridos', 400, 'BAD_REQUEST')
-    }
-
     const updated = await updateTable({ id, number, capacity, location })
 
     if (!updated) {
