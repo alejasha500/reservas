@@ -1,13 +1,14 @@
 import { Router } from 'express'
 import { authMiddleware } from '../middlewares/authMiddlewares.js'
 import { validate } from '../middlewares/validate.js'
-import { registerSchema, loginSchema, updateProfileSchema, changePasswordSchema} from '../utils/userSchemas.js'
+import { registerSchema, loginSchema, updateProfileSchema, changePasswordSchema, idParamSchema} from '../utils/userSchemas.js'
 import { checkRole } from '../middlewares/checkRole.js' 
 import {
      getUsers,
       login,
       register,
       logout,
+      verifySession,
       getUser,
       deleteByUser,
       getProfile,
@@ -34,20 +35,13 @@ router.delete('/profile', authMiddleware, deleteByUser)
 // Ruta de admin 
 
 router.get('/admin/users', authMiddleware, checkRole('admin'), getUsers)
-router.get('/admin/users/:id', authMiddleware, checkRole('admin'), getUser)
-router.delete('/admin/users/:id', authMiddleware, checkRole('admin'), deleteByUser)
+router.get('/admin/users/:id', authMiddleware, checkRole('admin'),validate(idParamSchema, 'params') ,getUser)
+router.delete('/admin/users/:id', authMiddleware, checkRole('admin'),validate(idParamSchema, 'params') ,deleteByUser)
 
 
 // verificar sesion
 
-router.get('/verify', authMiddleware, (req, res) => {
-  res.status(200).json({
-    success: true,
-    userId: req.user.id,
-    role: req.user.role,
-    message: 'Authenticated',
-  });
-});
+router.get('/verify', authMiddleware, verifySession)
 
 
 

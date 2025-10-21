@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 
-
+ 
   
 
 export const registerSchema = Joi.object({
@@ -36,7 +36,9 @@ export const updateProfileSchema = Joi.object({
   })
 })
 
-
+export const idParamSchema = Joi.object({
+  id: Joi.number().integer().positive().required()
+})
 
 export const changePasswordSchema = Joi.object({
   currentPassword: Joi.string().required().messages({

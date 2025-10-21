@@ -16,7 +16,7 @@ app.use(cookieParser())
 
 
 app.use(helmet())
-// app.js
+
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? false 

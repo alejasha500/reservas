@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 
-    // REGISTRO DE USUARIOS
+    // REGISTRO DE USUARIOS s
 
  export async function register ( req, res, next) {
       try {
@@ -26,7 +26,7 @@ dotenv.config()
                   httpOnly: true,
                   secure: process.env.NODE_ENV === 'production',
                    sameSite: 'strict',
-                   maxAge: 15 * 60 * 1000 // 15 minutos
+                   maxAge: 15 * 60 * 1000 
                })
 
 
@@ -84,6 +84,29 @@ dotenv.config()
           next(error)
       }
 }
+
+    // VERIFICAR SESSION
+    
+ export  async function verifySession(req, res, next){
+      try {
+              const user = await getUserById(req.user.id);
+
+             if (!user) {
+             return res.status(404).json({
+             success: false,
+             message: 'Usuario no encontrado'
+                });
+              }
+
+        res.status(200).json({
+           success: true,
+           user: sanitizeUser(user),
+           message: 'Authenticated'
+            });
+      } catch (error) {
+           next(error);
+      }
+   }
 
 
        // OBTENER PERFIL PROPIO (USUARIO)

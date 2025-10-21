@@ -30,3 +30,20 @@ export const updateTableSchema = Joi.object({
   capacity: Joi.number().integer().min(1).max(50).required(),
   location: Joi.string().optional()
 })
+
+
+
+export const idParamSchema = Joi.object({
+  id: Joi.number().integer().positive().required()
+})
+
+export const cancelReservationSchema = Joi.object({
+  reason: Joi.string().min(3).max(255).optional()
+})
+
+export const getAvailableTablesSchema = Joi.object({
+  reservation_date: Joi.date().iso().required(),
+  reservation_time: Joi.string().pattern(/^([01]\d|2[0-3]):[0-5]\d$/).required(),
+  duration: Joi.number().integer().min(1).max(8).required(),
+  num_people: Joi.number().integer().min(1).max(50).required()
+})

@@ -16,10 +16,10 @@ import {
  } from '../models/reservations.model.js'
 
 
-// ============================================
-// USUARIO - Funciones para el usuario normal
-// ============================================
-
+        //********************** */
+        // FUNCIONES DE USUARIO s
+        //********************** */
+        
 export async function createReservationController(req, res, next) {
   try {
     const { table_id, num_people, service, reservation_date, reservation_time, duration } = req.body
@@ -70,16 +70,16 @@ export async function getAvailableTablesController(req, res, next) {
   try {
     const { reservation_date, reservation_time, duration, num_people } = req.query
 
-    if (!reservation_date || !reservation_time || !duration || !num_people) {
-      throw new AuthError('Faltan parámetros', 400, 'BAD_REQUEST')
-    }
-
     const tables = await getAvailableTables(reservation_date, reservation_time, duration, num_people)
+
+        if(!tables) throw  new AuthError('no se hizo la reservacion', 404, 'ERROR_RESERVA')
+
     res.json({ success: true, data: tables })
   } catch (error) {
     next(error)
   }
 }
+
 
 export async function cancelMyReservationController(req, res, next) {
   try {
@@ -148,33 +148,7 @@ export async function updateReservationController(req, res, next) {
 // ADMIN - Funciones para administrador
 // ============================================
 
-export async function createReservationAdminController(req, res, next) {
-  try {
-    const { user_id, table_id, num_people, service, reservation_date, reservation_time, duration } = req.body
 
-    const table = await getTableById(table_id)
-    if (!table) throw new AuthError('Mesa no encontrada', 404, 'TABLE_NOT_FOUND')
-
-    if (num_people > table.capacity) throw new AuthError('la mesa no tiene capacidad suficiente', 400, 'CAPACITY_EXCEEDED')
-
-    const available = await checkTableAvailable(table_id, reservation_date, reservation_time, duration)
-    if (!available) throw new AuthError('Mesa no disponible', 400, 'NOT_AVAILABLE')
-
-    const reservation = await createReservation({
-      user_id,
-      table_id,
-      num_people,
-      service,
-      reservation_date,
-      reservation_time,
-      duration
-    })
-
-    res.status(201).json({ success: true, data: reservation })
-  } catch (error) {
-    next(error)
-  }
-}
 
 export async function updateReservationAdminController(req, res, next) {
   try {
