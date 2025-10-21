@@ -1,104 +1,106 @@
 import { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
-import { checkSession, loginUser, logoutUser, register } from '../api/authApi.js';
+import { 
+  verifyTokenApi, 
+  loginApi, 
+  logoutApi, 
+  registerApi 
+} from '../api/userApi.js';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext(null)
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    let mounted = true;
+    let mounted = true
     
     const verifySession = async () => {
       try {
-        const data = await checkSession();
-        if (!mounted) return;
+        const data = await verifyTokenApi() 
+        if (!mounted) return 
         
-        if (data?.user) {
-          setUser(data.user);
-          setIsAuthenticated(true);
+        if (data?.success) {
+          setUser(data.user)
+          setIsAuthenticated(true)
         } else {
-          setIsAuthenticated(false);
+          setIsAuthenticated(false)
         }
       } catch (error) {
-        if (!mounted) return;
-        setIsAuthenticated(false);b 
-        
+        if (!mounted) return
+        setIsAuthenticated(false)
       } finally {
-        if (!mounted) return;
-        setLoading(false);
+        if (!mounted) return
+        setLoading(false)
       }
-    };
+    }
     
-    verifySession();
-    return () => { mounted = false; };
-  }, []);
+    verifySession()
+    return () => { mounted = false; }
+  }, [])
 
-  // ✅ useCallback para evitar recrear funciones en cada render
   const login = useCallback(async (email, password) => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const data = await loginUser(email, password);
-      setUser(data.user);
-      setIsAuthenticated(true);
+      const data = await loginApi(email, password)
+      setUser(data.user)
+      setIsAuthenticated(true)
       return data;
     } catch (err) {
-      setIsAuthenticated(false);
+      setIsAuthenticated(false)
       throw err;
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
-  const registerUserCallback = useCallback(async (name, email, password) => {
-    setLoading(true);
+  const registerUser = useCallback(async (name, email, password) => {
+    setLoading(true)
     try {
-      const data = await register(name, email, password);
-      setUser(data.user);
-      setIsAuthenticated(true);
+      const data = await registerApi(name, email, password)
+      setUser(data.user)
+      setIsAuthenticated(true)
       return data;
     } catch (err) {
-      setIsAuthenticated(false);
+      setIsAuthenticated(false)
       throw err;
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   const logout = useCallback(async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      await logoutUser();
-      setUser(null);
-      setIsAuthenticated(false);
+      await logoutApi()  
+      setUser(null)
+      setIsAuthenticated(false)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
-  // ✅ Solo user, isAuthenticated, loading en dependencias
   const value = useMemo(() => ({
     user,
     isAuthenticated,
     loading,
     login,
-    registerUser: registerUserCallback,
+    registerUser,
     logout
-  }), [user, isAuthenticated, loading, login, registerUserCallback, logout]);
+  }), [user, isAuthenticated, loading, login, registerUser, logout])
 
   return (
     <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (!context) {
-    throw new Error('useAuth debe usarse dentro de AuthProvider');
+    throw new Error('useAuth debe usarse dentro de AuthProvider')
   }
-  return context;
-};
+  return context
+}

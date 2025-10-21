@@ -1,44 +1,16 @@
-// src/routes/PrivateRoute.jsx
-import { Navigate, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function PrivateRoute({ requiredRole }) {
-  const [auth, setAuth] = useState({
-    loading: true,
-    isAuthenticated: false,
-    role: null,
-  });
+  const { isAuthenticated, loading, user } = useAuth();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await axios.get("http://localhost:4000/api/auth/verify", {
-          withCredentials: true, 
-        });
-        setAuth({
-          loading: false,
-          isAuthenticated: true,
-          role: res.data.role, // el backend debe devolver el rol del usuario
-        });
-      } catch (err) {
-        setAuth({ loading: false, isAuthenticated: false, role: null });
-      }
-    };
+  if (loading) return <p>Cargando...</p>;
 
-    checkAuth();
-  }, []);
+  if (!isAuthenticated) return <Navigate to="/login" />;
 
-  if (auth.loading) return <p>Cargando...</p>;
-
-  // Si no está autenticado, lo manda al login
-  if (!auth.isAuthenticated) return <Navigate to="/login" />;
-
-  // Si se requiere un rol (admin, user, etc.)
-  if (requiredRole && auth.role !== requiredRole) {
+  if (requiredRole && user?.role !== requiredRole) {
     return <Navigate to="/" />;
   }
 
-  // Si pasa todas las validaciones, renderiza la ruta interna
   return <Outlet />;
 }

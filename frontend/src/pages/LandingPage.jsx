@@ -92,7 +92,7 @@ const LandingPage = () => {
                 <FadeInSection>
                     <div className="flex items-center justify-center backdrop-blur-lg bg-white/10 border border-white/20 rounded-sm p-12 mb-12 max-w-4xl mx-auto shadow-2xl">
                         <h2 className="font-display text-6xl font-bold text-center text-white tracking-tight">
-                            Nuestro Menú
+                            lo mas pedido del menu
                         </h2>
                     </div>
                 </FadeInSection>

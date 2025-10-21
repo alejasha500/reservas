@@ -222,10 +222,6 @@ export async function createTableController(req, res, next) {
   try {
     const { number, capacity, location } = req.body
 
-    if (!number || !capacity) {
-      throw new AuthError('Faltan datos requeridos', 400, 'BAD_REQUEST')
-    }
-
     const table = await createTable({ number, capacity, location })
 
     if (!table) {
