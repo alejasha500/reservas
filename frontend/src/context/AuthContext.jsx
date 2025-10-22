@@ -19,20 +19,20 @@ export const AuthProvider = ({ children }) => {
     const verifySession = async () => {
       try {
         const data = await verifyTokenApi() 
-        if (!mounted) return 
+              if (!mounted) return 
         
-        if (data?.success) {
-          setUser(data.user)
-          setIsAuthenticated(true)
-        } else {
-          setIsAuthenticated(false)
-        }
+              if (data?.success) {
+                  setUser(data.user)
+                 setIsAuthenticated(true)
+                } else {
+                    setIsAuthenticated(false)
+                      }
       } catch (error) {
-        if (!mounted) return
-        setIsAuthenticated(false)
+            if (!mounted) return
+             setIsAuthenticated(false)
       } finally {
-        if (!mounted) return
-        setLoading(false)
+             if (!mounted) return
+             setLoading(false)
       }
     }
     

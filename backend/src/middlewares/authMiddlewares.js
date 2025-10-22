@@ -1,7 +1,7 @@
 import { verifyToken } from '../config/token.js'
 
 export function authMiddleware(req, res, next) {
-    // ✅ Leer token desde COOKIE (no desde headers)
+    //  Leer token desde COOKIE (no desde headers)
     const token = req.cookies.token
     
     if (!token) {

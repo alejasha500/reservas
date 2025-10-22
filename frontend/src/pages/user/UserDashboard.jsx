@@ -1,3 +1,3 @@
 export default function UserDashboard() {
-  return <div>Admin Page</div>;
+  return <h1>Bienvenido al panel del usuario</h1>;
 }
