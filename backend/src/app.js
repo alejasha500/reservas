@@ -20,9 +20,10 @@ app.use(helmet())
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? false 
-    : 'http://localhost:3000',
+    : 'http://localhost:5173',
   credentials: true
 }))
+
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 100 

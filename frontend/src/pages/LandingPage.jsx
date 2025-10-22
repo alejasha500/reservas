@@ -1,6 +1,7 @@
 import MenuCard from '../components/layout/MenuCard.jsx'
 import { useNavigate } from "react-router-dom";
 import FadeInSection from '../components/FadeInSection.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
   // imagenes 
   import bgImage from '../assets/mesa.jpg'
 import  dessert from '../assets/frutosRojos.jpg'
@@ -10,12 +11,23 @@ import burguer from '../assets/burguer.jpg'
 
 const LandingPage = () => {
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth()
+
 
     const scrollToMenu = () => {
         document.getElementById('menu-section').scrollIntoView({ 
             behavior: 'smooth' 
-        });
-    };
+        })
+    }
+
+
+     const handleReservations = () => {
+          if(isAuthenticated){
+             navigate("/user/dashboard")
+          } else {
+             navigate("/login")
+          }
+     }
 
     return (
         <div className="bg-gradient-to-br from-green-900 to-black font-body"  
@@ -34,7 +46,7 @@ const LandingPage = () => {
                     <div className="flex gap-4">
                         <button 
                             onClick={() => navigate('/login')}
-                            className="px-6 py-2 text-white font-semibold hover:text-purple-300 transition-colors"
+                            className="px-6 py-2 backdrop-blur-lg bg-white/20 border border-white/30 text-white rounded-lg font-semibold hover:bg-white/30 transition-all"
                         >
                             Iniciar sesión
                         </button>
@@ -43,6 +55,10 @@ const LandingPage = () => {
                             className="px-6 py-2 backdrop-blur-lg bg-white/20 border border-white/30 text-white rounded-lg font-semibold hover:bg-white/30 transition-all"
                         >
                             Registrarse
+                        </button>
+                        <button onClick={handleReservations}
+                            className="px-6 py-2 text-white font-semibold hover:text-purple-300 transition-colors">
+                              tus reservas
                         </button>
                     </div>
                 </div>
@@ -152,7 +168,7 @@ const LandingPage = () => {
                 </p>
             </footer>
         </div>
-    );
-};
+    )
+}
 
 export default LandingPage;
