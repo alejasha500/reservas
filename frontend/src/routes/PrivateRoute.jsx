@@ -6,7 +6,7 @@ export default function PrivateRoute({ requiredRole }) {
 
   if (loading) return <p>Cargando...</p>;
 
-  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (!isAuthenticated) return <Navigate to="/" />;
 
   if (requiredRole && user?.role !== requiredRole) {
     return <Navigate to="/" />;

@@ -12,7 +12,7 @@ export default function UserDashboard() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) navigate("/login")
+    if (!loading && !isAuthenticated) navigate("/")
   }, [isAuthenticated, loading, navigate])
 
   if (loading) return <LoadingSpinner />
@@ -21,6 +21,10 @@ export default function UserDashboard() {
   const handleProfile = () => navigate("/user/profile")
   const handleReservations = () => navigate("/user/reservations")
   const handleNewReservation = () => navigate("/user/new-reservation")
+  const handleLogout = async () => {
+  await logout()
+  navigate("/") // ← Redirigir explícitamente al landing
+}
    
 
   return (
@@ -55,7 +59,7 @@ export default function UserDashboard() {
               Mis reservas
             </button>
             <button
-              onClick={logout}
+              onClick={handleLogout}
               className="px-6 py-2 bg-red-600/70 border border-red-500/30 text-white rounded-lg font-semibold hover:bg-red-600 transition-all"
             >
               Cerrar sesión
