@@ -26,7 +26,7 @@ const AppRouter = () => (
     <Route element={<PrivateRoute requiredRole="user" />}>
       <Route path="/user/dashboard" element={<UserDashboard />} />
       <Route path="/user/new-reservation" element={<NewReservation />} />
-      <Route path="/user/my-reservations" element={<MyReservations />} />
+      <Route path="/user/reservations" element={<MyReservations />} />
       <Route path="/user/profile" element={<Profile />} />
     </Route>
 

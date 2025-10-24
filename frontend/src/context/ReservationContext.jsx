@@ -1,11 +1,11 @@
- import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useCallback, useMemo } from 'react'
 import { 
   getMyReservationsApi, 
   createReservationApi, 
   cancelReservationApi 
 } from '../api/reservationsApi.js'
 
-const ReservationContext = createContext()
+const ReservationContext = createContext(null)
 
 export const ReservationProvider = ({ children }) => {
   const [reservations, setReservations] = useState([])
@@ -14,11 +14,12 @@ export const ReservationProvider = ({ children }) => {
 
   const fetchReservations = useCallback(async () => {
     setLoading(true)
+    setError(null)
     try {
       const data = await getMyReservationsApi()
-      setReservations(data)
+      setReservations(data.reservations || data)
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al obtener reservas')
+      setError(err.response?.data?.error || 'Error al obtener reservas')
     } finally {
       setLoading(false)
     }
@@ -26,12 +27,13 @@ export const ReservationProvider = ({ children }) => {
 
   const createReservation = useCallback(async (reservationData) => {
     setLoading(true)
+    setError(null)
     try {
       const newReservation = await createReservationApi(reservationData)
       setReservations(prev => [...prev, newReservation])
       return newReservation
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al crear reserva')
+      setError(err.response?.data?.error || 'Error al crear reserva')
       throw err
     } finally {
       setLoading(false)
@@ -40,25 +42,34 @@ export const ReservationProvider = ({ children }) => {
 
   const cancelReservation = useCallback(async (id, reason) => {
     setLoading(true)
+    setError(null)
     try {
       await cancelReservationApi(id, reason)
-      setReservations(prev => prev.filter(r => r.id !== id))
+      setReservations(prev => prev.map(r => 
+        r.id === id ? {...r, status: 'cancelada'} : r
+      ))
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al cancelar reserva')
+      setError(err.response?.data?.error || 'Error al cancelar reserva')
+      throw err
     } finally {
       setLoading(false)
     }
   }, [])
 
+  const clearError = useCallback(() => setError(null), [])
+
+  const value = useMemo(() => ({
+    reservations,
+    loading,
+    error,
+    fetchReservations,
+    createReservation,
+    cancelReservation,
+    clearError
+  }), [reservations, loading, error, fetchReservations, createReservation, cancelReservation, clearError])
+
   return (
-    <ReservationContext.Provider value={{
-      reservations,
-      loading,
-      error,
-      fetchReservations,
-      createReservation,
-      cancelReservation
-    }}>
+    <ReservationContext.Provider value={value}>
       {children}
     </ReservationContext.Provider>
   )

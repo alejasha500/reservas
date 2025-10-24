@@ -21,7 +21,7 @@ export default function UserDashboard() {
   const handleProfile = () => navigate("/user/profile")
   const handleReservations = () => navigate("/user/reservations")
   const handleNewReservation = () => navigate("/user/new-reservation")
-  
+   
 
   return (
     <div
@@ -86,13 +86,7 @@ export default function UserDashboard() {
 
      
       <section id="menu-section" className="py-24 px-8">
-        <FadeInSection>
-          <div className="flex items-center justify-center backdrop-blur-lg bg-white/10 border border-white/20 rounded-sm p-12 mb-12 max-w-4xl mx-auto shadow-2xl">
-            <h2 className="font-display text-5xl font-bold text-center text-white tracking-tight">
-              Tus platos favoritos 🍷
-            </h2>
-          </div>
-        </FadeInSection>
+        
 
         
         <div className="text-center mt-16">
