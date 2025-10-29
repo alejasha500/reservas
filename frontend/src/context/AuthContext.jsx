@@ -1,10 +1,6 @@
-import { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
-import { 
-  verifyTokenApi, 
-  loginApi, 
-  logoutApi, 
-  registerApi 
-} from '../api/userApi.js';
+// context/AuthContext.jsx
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { verifyTokenApi, loginApi, logoutApi, registerApi } from '../api/userApi.js';
 
 const AuthContext = createContext(null)
 
@@ -17,27 +13,39 @@ export const AuthProvider = ({ children }) => {
     let mounted = true
     
     const verifySession = async () => {
+      const hasSession = sessionStorage.getItem('hasSession')
+      
+      if (!hasSession) {
+        setLoading(false)
+        setIsAuthenticated(false)
+        return
+      }
+      
       try {
-        const data = await verifyTokenApi() 
-              if (!mounted) return 
+        const data = await verifyTokenApi()
         
-              if (data?.success) {
-                  setUser(data.user)
-                 setIsAuthenticated(true)
-                } else {
-                    setIsAuthenticated(false)
-                      }
+        if (!mounted) return
+        
+        if (data?.success) {
+          setUser(data.user)
+          setIsAuthenticated(true)
+        } else {
+          setIsAuthenticated(false)
+          sessionStorage.removeItem('hasSession')
+        }
       } catch (error) {
-            if (!mounted) return
-             setIsAuthenticated(false)
+        if (!mounted) return
+        
+        setIsAuthenticated(false)
+        sessionStorage.removeItem('hasSession')
       } finally {
-             if (!mounted) return
-             setLoading(false)
+        if (!mounted) return
+        setLoading(false)
       }
     }
     
     verifySession()
-    return () => { mounted = false; }
+    return () => { mounted = false }
   }, [])
 
   const login = useCallback(async (email, password) => {
@@ -46,10 +54,11 @@ export const AuthProvider = ({ children }) => {
       const data = await loginApi(email, password)
       setUser(data.user)
       setIsAuthenticated(true)
-      return data;
+      sessionStorage.setItem('hasSession', 'true')
+      return data
     } catch (err) {
       setIsAuthenticated(false)
-      throw err;
+      throw err
     } finally {
       setLoading(false)
     }
@@ -61,10 +70,11 @@ export const AuthProvider = ({ children }) => {
       const data = await registerApi(name, email, password)
       setUser(data.user)
       setIsAuthenticated(true)
-      return data;
+      sessionStorage.setItem('hasSession', 'true')
+      return data
     } catch (err) {
       setIsAuthenticated(false)
-      throw err;
+      throw err
     } finally {
       setLoading(false)
     }
@@ -73,22 +83,23 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(async () => {
     setLoading(true)
     try {
-      await logoutApi()  
+      await logoutApi()
       setUser(null)
       setIsAuthenticated(false)
+      sessionStorage.removeItem('hasSession')
     } finally {
       setLoading(false)
     }
   }, [])
 
-  const value = useMemo(() => ({
+  const value = {
     user,
     isAuthenticated,
     loading,
     login,
     registerUser,
     logout
-  }), [user, isAuthenticated, loading, login, registerUser, logout])
+  }
 
   return (
     <AuthContext.Provider value={value}>
